@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+      <div class="container">
+         <ul>
+    {{#each posts}}
+    <li class="list-group-item">
+      <div class="lead">
+          <a href="/posts/{{this._id}}" class="lead">{{this.title}}</a>
+      </div>
+      <a href="{{this.url}}" target="_blank">{{this.url}}<a>
+      <div class="text-right">
+           <a href="/r/{{this.subreddit}}">{{this.subreddit}}</a>
+        </div>
+    </li>
+    {{/each}}
+  </ul>
+      </div>
+  </div>
+</div>
