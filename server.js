@@ -52,6 +52,9 @@ var exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
+module.exports = app;
+
+
 //LISTEN
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
