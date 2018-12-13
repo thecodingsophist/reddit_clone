@@ -5,7 +5,7 @@ module.exports = (app) => {
   // SIGN UP FORM
   app.get("/sign-up", (req, res) => {
     var currentUser = req.user;
-
+    console.log("currentUser:", currentUser);
     res.render("sign-up", {currentUser});
   });
 

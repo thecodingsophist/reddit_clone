@@ -1,4 +1,6 @@
 const Post = require('../models/post')
+const User = require('../models/user')
+
 module.exports = app => {
 
 //ROUTES
@@ -18,8 +20,8 @@ module.exports = app => {
 //HOME
 
 app.get("/", (req, res) => {
-  var currentUser = req.user;
-
+  const currentUser = req.user;
+  console.log("currentUser:",currentUser);
   Post.find({})
     .then(posts => {
       res.render("posts-index", { posts, currentUser });
@@ -33,22 +35,48 @@ app.get("/", (req, res) => {
 app.get('/posts/new', (req, res) => {
     var currentUser = req.user;
 
-    res.render('posts-new', { posts, currentUser });// Redirect to posts
+    res.render('posts-new', { currentUser });// Redirect to posts
 
 })
 
-// CREATE
-app.post('/posts/new', (req, res) => {
-  // INSTANTIATE INSTANCE OF POST MODEL
-  console.log("req.body:", req.body);
-  const post = new Post(req.body);
+// // CREATE
+// app.post('/posts/new', (req, res) => {
+//   // INSTANTIATE INSTANCE OF POST MODEL
+//   console.log("req.body:", req.body);
+//   const post = new Post(req.body);
+//
+//   post.save()
+//   .then(() => {
+//       res.redirect(`/`);
+//   }).catch(err => {
+//       console.log(err.message);
+//   })
+//
+// });
 
-  post.save()
-  .then(() => {
-      res.redirect(`/`);
-  }).catch(err => {
-      console.log(err.message);
-  })
+// CREATE
+app.post("/posts/new", (req, res) => {
+  if (req.user) {
+    var post = new Post(req.body);
+    var p;
+    post
+      .save()
+      .then(post => {
+        p = post
+        return User.findById(req.user._id);
+      })
+      .then(user => {
+        // user.posts.unshift(post);
+        user.save();
+        // REDIRECT TO THE NEW POST
+        res.redirect("/posts/" + p._id);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    } else {
+        return res.status(401);
+    }
 
 });
 

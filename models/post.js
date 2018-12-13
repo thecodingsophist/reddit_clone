@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const User = require('../models/user')
+
 
 mongoose.connect('mongodb://localhost/reddit-db');
 // const Post = require('./post.js');
@@ -11,7 +13,8 @@ const PostSchema = new Schema({
   url: { type: String, required: true },
   summary: { type: String, required: true },
   subreddit: { type: String, required: true },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  author : { type: Schema.Types.ObjectId, ref: "User", required: true }
 
 });
 

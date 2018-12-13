@@ -17,6 +17,24 @@ app.use(expressValidator());
 // used for cookies and JWTs
 app.use(cookieParser());
 
+var checkAuth = (req, res, next) => {
+  console.log("Checking authentication");
+  if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
+    req.user = null;
+  } else {
+    var token = req.cookies.nToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+    res.locals.currentUser = req.user
+
+  }
+  console.log("current user", req.user)
+
+  next();
+};
+// Checking Authentication
+app.use(checkAuth);
+
 // Set db
 require('./data/reddit-db');
 
@@ -33,21 +51,6 @@ var exphbs = require('express-handlebars');
 // {defaultLayout: 'main'} >>> In you main.hbs {{{body}}}. double check our RT tutorial
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-
-var checkAuth = (req, res, next) => {
-  console.log("Checking authentication");
-  if (typeof req.cookies.nToken === "undefined" || req.cookies.nToken === null) {
-    req.user = null;
-  } else {
-    var token = req.cookies.nToken;
-    var decodedToken = jwt.decode(token, { complete: true }) || {};
-    req.user = decodedToken.payload;
-  }
-
-  next();
-};
-//checks for authentication
-app.use(checkAuth);
 
 //LISTEN
 
