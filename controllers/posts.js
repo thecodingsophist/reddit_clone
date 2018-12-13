@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
   const currentUser = req.user;
   console.log("currentUser:",currentUser);
   Post.find({})
+    .populate('author')
     .then(posts => {
       res.render("posts-index", { posts, currentUser });
     })
@@ -85,7 +86,7 @@ app.get("/posts/:id", function(req, res) {
     var currentUser = req.user;
 
     // LOOK UP THE POST
-    Post.findById(req.params.id).populate('comments')
+    Post.findById(req.params.id).populate('comments').populate('author')
     .then((post) => {
       res.render('post-show', { post, currentUser })
     }).catch((err) => {
