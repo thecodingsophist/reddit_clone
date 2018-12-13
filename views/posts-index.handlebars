@@ -13,7 +13,14 @@
         </div>
         <div class="text-right">
             {{this.author.username}}
+            {{this.voteScore}}
         </div>
+        <form class="vote-up" data-id="{{this._id}}">
+            <button type="submit">Vote Up</button>
+        </form>
+        <form class="vote-down" data-id="{{this._id}}">
+            <button type="submit">Vote Down</button>
+        </form>
     </li>
     {{/each}}
   </ul>

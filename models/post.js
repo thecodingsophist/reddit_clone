@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const User = require('../models/user')
+const Comment = require("../models/comment.js");
+const Autopopulate = require('../utilities/autopopulate');
 
 
 mongoose.connect('mongodb://localhost/reddit-db');
@@ -14,9 +16,13 @@ const PostSchema = new Schema({
   summary: { type: String, required: true },
   subreddit: { type: String, required: true },
   comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
-  author : { type: Schema.Types.ObjectId, ref: "User", required: true }
+  author : { type: Schema.Types.ObjectId, ref: "User", required: true },
+  upVotes :   [{ type: Schema.Types.ObjectId, ref: "User" }],
+    downVotes:  [{ type: Schema.Types.ObjectId, ref: "User" }],
+    voteScore:  { type: Number, default: 0 },
 
-});
+}).pre('findOne', Autopopulate('comments'))
+	.pre('find', Autopopulate('comments'));
 
 PostSchema.pre("save", function(next) {
     const now = new Date();

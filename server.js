@@ -44,6 +44,8 @@ require('./controllers/comments-controller.js')(app);
 
 require('./controllers/auth.js')(app);
 
+require('./controllers/replies.js')(app);
+
 //passwords and security
 require('dotenv').config();
 
