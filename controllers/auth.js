@@ -37,12 +37,14 @@ app.get('/logout', (req, res) => {
 // LOGIN FORM
 app.get('/login', (req, res) => {
     var currentUser = req.user;
+    console.log("here___________")
 
   res.render('login', {currentUser});
 });
 
 // LOGIN
 app.post("/login", (req, res) => {
+
   const username = req.body.username;
   const password = req.body.password;
   // Find this user name
@@ -61,6 +63,7 @@ app.post("/login", (req, res) => {
         // Create a token
         const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
           expiresIn: "60 days"});
+
         // Set a cookie and redirect to root
         res.cookie("nToken", token, { maxAge: 900000, httpOnly: true });
         res.redirect("/");

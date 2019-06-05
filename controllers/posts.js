@@ -56,7 +56,8 @@ app.get("/", (req, res) => {
 });
 
 //NEW FORM
-app.get('/posts/new', (req, res, post) => {
+app.get('/
+posts/new', (req, res, post) => {
     var currentUser = req.user;
 
     res.render('posts-new', { post, currentUser });// Redirect to posts
