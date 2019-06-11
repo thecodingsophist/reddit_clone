@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
       });
 })
 
+// VOTE UP
 app.put("/posts/:id/vote-up", (req, res) => {
     Post.findById(req.params.id).exec((err, post) => {
         console.log(post);
@@ -29,7 +30,7 @@ app.put("/posts/:id/vote-up", (req, res) => {
     });
 });
 
-
+// VOTE DOWN
 app.put("/posts/:id/vote-down", (req, res) => {
     Post.findById(req.params.id).exec((err, post) => {
         post.downVotes.push(req.user._id);
@@ -41,7 +42,6 @@ app.put("/posts/:id/vote-down", (req, res) => {
 });
 
 //HOME
-
 app.get("/", (req, res) => {
   const currentUser = req.user;
   console.log("currentUser:",currentUser);
