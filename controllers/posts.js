@@ -5,17 +5,17 @@ module.exports = app => {
 
 //ROUTES
 
-//HOME
-// app.get('/', (req, res) => {
-//     //SEND POSTS
-//     Post.find({})
-//       .then(posts => {
-//         res.render("posts-index", { posts });
-//       })
-//       .catch(err => {
-//         console.log(err.message);
-//       });
-// })
+// HOME
+app.get('/', (req, res) => {
+    //SEND POSTS
+    Post.find({})
+      .then(posts => {
+        res.render("posts-index", { posts });
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+})
 
 app.put("/posts/:id/vote-up", (req, res) => {
     Post.findById(req.params.id).exec((err, post) => {
@@ -56,8 +56,7 @@ app.get("/", (req, res) => {
 });
 
 //NEW FORM
-app.get('/
-posts/new', (req, res, post) => {
+app.get("posts/new", (req, res, post) => {
     var currentUser = req.user;
 
     res.render('posts-new', { post, currentUser });// Redirect to posts
