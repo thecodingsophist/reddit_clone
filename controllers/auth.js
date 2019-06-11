@@ -13,9 +13,11 @@ module.exports = (app) => {
   // SIGN UP POST
 app.post("/sign-up", (req, res) => {
 
-  // Create User and JWT
+  // Create USER and JWT
   const user = new User(req.body);
 
+  // USER
+  
   user
     .save()
     .then(user => {
